@@ -51,32 +51,32 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (modellist.getFocus() =="1"&&modellist.getNumber().toString().length()>2){
 
-            viewitem.Liner_Top.setBackgroundColor(Color.BLUE);
-            viewitem.Liner_Toad.setBackgroundColor(Color.BLUE);
+            viewitem.Liner_Top.setBackgroundResource(R.drawable.bg_item_select);
+            viewitem.Liner_Toad.setBackgroundResource(R.drawable.bg_item_select);
 
         }else if (modellist.getFocus()=="1"&&modellist.getNumber().toString().length()<=2){
 
-            viewitem.Liner_Top.setBackgroundColor(Color.BLUE);
-            viewitem.Liner_Lower.setBackgroundColor(Color.BLUE);
+            viewitem.Liner_Top.setBackgroundResource(R.drawable.bg_item_select);
+            viewitem.Liner_Lower.setBackgroundResource(R.drawable.bg_item_select);
         }
         if (modellist.getFocus()=="1"&&modellist.getTop().toString().length()>0){
-            viewitem.Liner_Top.setBackgroundColor(Color.WHITE);
+            viewitem.Liner_Top.setBackgroundColor(0);
         }
         if (modellist.getFocus()=="1"&&modellist.getToad().toString().length()>0){
-            viewitem.Liner_Toad.setBackgroundColor(Color.WHITE);
+            viewitem.Liner_Toad.setBackgroundColor(0);
         }
         if (modellist.getFocus()=="1"&&modellist.getButton().toString().length()>0){
-            viewitem.Liner_Lower.setBackgroundColor(Color.WHITE);
+            viewitem.Liner_Lower.setBackgroundColor(0);
         }
 
         if (!modellist.isCheck_top()){
-            viewitem.Liner_Top.setBackgroundColor(Color.WHITE);
+            viewitem.Liner_Top.setBackgroundColor(0);
         }
          if (!modellist.isCheck_button()&&modellist.getTop().toString().length()>0&&!modellist.isCheck_toad()){
-            viewitem.Liner_Lower.setBackgroundColor(Color.WHITE);
+            viewitem.Liner_Lower.setBackgroundColor(0);
         }
          if (!modellist.isCheck_toad()&&modellist.getTop().toString().length()>0&&!modellist.isCheck_button()){
-            viewitem.Liner_Toad.setBackgroundColor(Color.WHITE);
+            viewitem.Liner_Toad.setBackgroundColor(0);
         }
 
 

@@ -14,4 +14,11 @@
         <item name="android:layout_margin">@dimen/magin10</item>
     </style>
 
+    <!-- Application theme. -->
+    <style name="AppThemeNo" parent="Theme.AppCompat.Light">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowNoTitle">true</item> <!-- Hides the Action Bar -->
+        <item name="android:windowFullscreen">true</item> <!-- Hides the status bar -->
+    </style>
+
 </resources>

@@ -1,5 +1,6 @@
 package com.example.lenovo.momotest2;
 
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +14,8 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -48,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_number);
         getSupportActionBar().hide();
+
 
         itemView();
         edit_number.addTextChangedListener(new TextWatcher() {
@@ -154,6 +158,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         redetail.setAdapter(adapter);
         redetail.setLayoutManager(gridLayoutManager);
         redetail.setHasFixedSize(true);
+
+        setBackground();
     }
 
     @Override
@@ -170,7 +176,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.btn_Nexto:
-                setNexto();
+                if (btn_Nexto.getText()=="ข้าม"){
+                    setNexto();
+                }else if (btn_Nexto.getText()=="บันทึก"){
+                    if (list.size()>0){
+                        Log.e("MainActivity", "บันทึก");
+                    }
+                }
+
                 break;
 
             case R.id.btn_cancel:
@@ -216,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         edit_number.setText(null);
         edit_number.requestFocus();
         edit_number.setFocusable(true);
+
     }
     private void setNumber(String number){
         edit_number.setText(edit_number.getText()+number);
@@ -334,6 +348,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             Log.e("MainActivity", "out");
         }
+        setBackground();
+
 
     }
     private void Clear_Dataset(){
@@ -397,6 +413,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             modeldetail.setCheck_toad(false);
             list.set(list.size()-1,modeldetail);
             adapter.notifyDataSetChanged();
+        }
+        setBackground();
+
+
+    }
+    private void setBackground(){
+        if (btn_Nexto.getText()=="ข้าม"){
+
+            btn_Nexto.setBackgroundResource(R.drawable.bg_number_menu);
+            btn_Nexto.setTextColor(getResources().getColor(R.color.colorWith));
+
+        }else if (btn_Nexto.getText()=="บันทึก"){
+
+            btn_Nexto.setBackgroundResource(R.drawable.bg_number_save);
+            btn_Nexto.setTextColor(getResources().getColor(R.color.colorblack));
         }
     }
 

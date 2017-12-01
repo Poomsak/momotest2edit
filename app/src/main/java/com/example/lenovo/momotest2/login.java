@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,13 +34,17 @@ public class login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         getSupportActionBar().hide();
+
         allCommand = new AllCommand();
 
         bg_Login = (TextView) findViewById(R.id.bg_Login);
         edUsername = (EditText) findViewById(R.id.edUsername);
         edPassword = (EditText) findViewById(R.id.edPassword);
 
+        edUsername.setText("aaaa01@zx");
+        edPassword.setText("1111");
 
         avloadLogin = (AVLoadingIndicatorView) findViewById(R.id.avloadLogin);
 
@@ -72,7 +78,7 @@ public class login extends AppCompatActivity {
                     ArrayList<FromHttpPostOkHttp> params_login = new ArrayList<FromHttpPostOkHttp>();
                     params_login.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("server",
                             getUserFormat(2)));
-                    return allCommand.POST_OK_HTTP_SendData("URL.php", params_login);
+                    return allCommand.POST_OK_HTTP_SendData("http://www.atom168.com/openbet2.php", params_login);
                 }
 
                 @Override
@@ -96,8 +102,8 @@ public class login extends AppCompatActivity {
                             protected String doInBackground(String... strings) {
                                 String str_Url = strURLBall + "checkLogin.php";
                                 ArrayList<FromHttpPostOkHttp> params = new ArrayList<FromHttpPostOkHttp>();
-                                params.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("l_user", strUsername));
-                                params.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("l_pass", strPassword));
+                                params.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("sUsername ", strUsername));
+                                params.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("sPassword ", strPassword));
                                 return allCommand.POST_OK_HTTP_SendData(str_Url, params);
                             }
 
@@ -107,7 +113,7 @@ public class login extends AppCompatActivity {
                                 try {
                                     JSONObject jOLogin =	new JSONObject(s);
                                     strStatus = jOLogin.getString("Status");
-                                    if (strStatus.toString().equals("2")) {
+                                    if (strStatus.toString().equals("1")) {
 
                                         /*
                                         allCommand.SaveStringShare(login.this,allCommand.kSaveUserName,edUsername.getText().toString());

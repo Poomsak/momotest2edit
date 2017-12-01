@@ -20,7 +20,8 @@
                 android:textSize="@dimen/text_size30"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/magin10"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:textColor="@color/colorblack"/>
             <TextView
                 android:id="@+id/text_tital"
                 android:layout_width="match_parent"
@@ -29,7 +30,8 @@
                 android:text=""
                 android:textSize="@dimen/magin_size50"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/magin10"/>
+                android:layout_marginTop="@dimen/magin10"
+                android:textColor="@color/colorblack"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +39,8 @@
                 android:textSize="@dimen/text_size30"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/magin10"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:textColor="@color/colorblack"/>
         </LinearLayout>
 
         <LinearLayout
@@ -60,10 +63,10 @@
                 android:layout_height="@dimen/magin70"
                 android:id="@+id/btn_edit"
                 android:text="@string/text_edit"
-                android:background="@drawable/bg_number_menu"
+                android:background="@drawable/bg_number_edit"
                 android:gravity="center"
                 android:textSize="@dimen/text_size30"
-                android:textColor="@color/colorWith"
+                android:textColor="@color/colorblack"
                 android:layout_weight="2.5"
                 android:layout_marginTop="@dimen/magin20"
                 android:layout_marginRight="@dimen/magin20"
@@ -187,17 +190,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:layout_margin="@dimen/margin5"
-        android:id="@+id/linearLayout2">
+        android:id="@+id/linearLayout2"
+        android:layout_marginBottom="@dimen/magin10">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/magin70"
             android:id="@+id/btn_cancel"
             android:text="@string/cancel"
-            android:background="@drawable/bg_number_menu"
+            android:background="@drawable/bg_number_cancel"
             android:gravity="center"
             android:textSize="@dimen/text_size30"
-            android:textColor="@color/colorWith"
+            android:textColor="@color/colorblack"
             android:layout_weight="1"
             android:layout_marginLeft="@dimen/magin10"/>
 
@@ -206,10 +209,10 @@
             android:layout_height="@dimen/magin70"
             android:id="@+id/btn_enter"
             android:text="@string/text_enter"
-            android:background="@drawable/bg_number_menu"
+            android:background="@drawable/bg_number_enter"
             android:gravity="center"
             android:textSize="@dimen/text_size30"
-            android:textColor="@color/colorWith"
+            android:textColor="@color/colorblack"
             android:layout_weight="1"
             android:layout_marginRight="@dimen/magin10"
             android:layout_marginLeft="@dimen/magin10"/>
