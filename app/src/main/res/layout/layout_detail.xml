@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="รายการ"
+                style="@style/Text_custom"/>
+            <android.support.v7.app.AlertController.RecycleListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/re_detail">
+            </android.support.v7.app.AlertController.RecycleListView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.3"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/Text_custom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ราคา" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/magin70"
+                            android:layout_marginBottom="@dimen/magin10"
+                            android:layout_marginLeft="@dimen/magin10"
+                            android:layout_marginTop="@dimen/magin10"
+                            android:layout_toStartOf="@+id/textView"
+                            android:background="@drawable/bg_edittext" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="บาท"
+                            style="@style/Text_custom"
+                            android:layout_alignParentRight="true"
+                            android:id="@+id/textView"
+                            android:layout_centerVertical="true"/>
+                    </RelativeLayout>
+
+
+                    <TextView
+                        style="@style/Text_custom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="จำนวน" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/magin70"
+                        android:layout_margin="@dimen/magin10"
+                        android:background="@drawable/bg_edittext" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentBottom="true">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/magin70"
+                        android:text="@string/text_add"
+                        android:background="@drawable/bg_number_menu"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size30"
+                        android:textColor="@color/colorWith"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/magin10"
+                        android:layout_marginRight="@dimen/magin10"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/magin70"
+                        android:text="@string/text_enter"
+                        android:background="@drawable/bg_number_menu"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size30"
+                        android:textColor="@color/colorWith"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/magin10"
+                        android:layout_marginRight="@dimen/magin10"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

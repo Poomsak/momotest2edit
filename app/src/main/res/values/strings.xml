@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">momotest2</string>
+    <string name="cancel">ยกเลิก</string>
+    <string name="text_edit">แก้ไข</string>
+    <string name="text_enter">ตกลง</string>
+    <string name="text_add">เพิ่ม</string>
+    <string name="text_number">กรุณากรอก</string>
+    <string name="menu1">Menu1</string>
+    <string name="menu2">Menu2</string>
+    <string name="menu3">Menu3</string>
+    <string name="title_hint_user">ชื่อผู้ใช้งาน</string>
+    <string name="title_hint_pass">รหัสผ่าน</string>
+    <string name="title_ok">ตกลง</string>
+    <string name="size_dialog_ok">18</string>
+    <string name="size_dialog_button">16</string>
+    <string name="size_padding_tb_dialog">15</string>
+    <string name="textadd">@</string>
+    <string name="str_nexto">ข้าม</string>
+    <string name="str_save">บันทึก</string>
+</resources>
