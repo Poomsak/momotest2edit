@@ -5,6 +5,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.lenovo.momotest2.MainActivity">
-
     <include layout="@layout/layout_number"></include>
 </LinearLayout>

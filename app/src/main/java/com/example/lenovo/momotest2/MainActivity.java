@@ -121,7 +121,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_edit = findViewById(R.id.btn_edit);
         btn_cancel = findViewById(R.id.btn_cancel);
         btn_Nexto = findViewById(R.id.btn_Nexto);
-        btn_Nexto.setText("บันทึก");
 
         text_tital = findViewById(R.id.text_tital);
         text_tital.setText("เลข");
@@ -158,8 +157,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         redetail.setAdapter(adapter);
         redetail.setLayoutManager(gridLayoutManager);
         redetail.setHasFixedSize(true);
-
-        setBackground();
     }
 
     @Override
@@ -176,14 +173,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.btn_Nexto:
-                if (btn_Nexto.getText()=="ข้าม"){
-                    setNexto();
-                }else if (btn_Nexto.getText()=="บันทึก"){
-                    if (list.size()>0){
-                        Log.e("MainActivity", "บันทึก");
-                    }
-                }
-
+                setNexto();
                 break;
 
             case R.id.btn_cancel:
@@ -259,7 +249,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Check_numberToad = true;
 
             text_tital.setText("บน");
-            btn_Nexto.setText("ข้าม");
             if (edit_number.getText().length()>2){
                 Check_numberlower = false;
 
@@ -315,7 +304,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (!Check_numberToad){
                 Log.e("MainActivity", "END");
                 text_tital.setText("เลข");
-                btn_Nexto.setText("บันทึก");
                 Check_number = true;
             }else {
                 text_tital.setText("โต้ด");
@@ -341,14 +329,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (!Check_numberlower){
                 Log.e("MainActivity", "END");
                 text_tital.setText("เลข");
-                btn_Nexto.setText("บันทึก");
                 Check_number = true;
             }
         }else {
 
             Log.e("MainActivity", "out");
         }
-        setBackground();
 
 
     }
@@ -381,7 +367,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (!Check_numberToad&&list.get(list.size()-1).getTop().length()>0){
                 Log.e("MainActivity", "END lower");
                 text_tital.setText("เลข");
-                btn_Nexto.setText("บันทึก");
                 Check_number = true;
 
             }
@@ -406,7 +391,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (!Check_numberlower&&list.get(list.size()-1).getTop().length()>0){
                 Log.e("MainActivity", "END Toad");
                 text_tital.setText("เลข");
-                btn_Nexto.setText("บันทึก");
                 Check_number = true;
 
             }
@@ -414,21 +398,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             list.set(list.size()-1,modeldetail);
             adapter.notifyDataSetChanged();
         }
-        setBackground();
 
 
-    }
-    private void setBackground(){
-        if (btn_Nexto.getText()=="ข้าม"){
-
-            btn_Nexto.setBackgroundResource(R.drawable.bg_number_menu);
-            btn_Nexto.setTextColor(getResources().getColor(R.color.colorWith));
-
-        }else if (btn_Nexto.getText()=="บันทึก"){
-
-            btn_Nexto.setBackgroundResource(R.drawable.bg_number_save);
-            btn_Nexto.setTextColor(getResources().getColor(R.color.colorblack));
-        }
     }
 
 }

@@ -7,6 +7,6 @@
         android:endColor="#f7ffa4"></gradient>
     <stroke android:width="2dp"
         android:color="#ffe100"></stroke>
-    <corners android:radius="5dp"/>
+    <corners android:radius="10dp"/>
 
 </shape>

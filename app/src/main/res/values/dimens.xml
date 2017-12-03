@@ -21,5 +21,6 @@
     <dimen name="pad_btn_save">15dp</dimen>
     <dimen name="pad_btn_save_rl">40dp</dimen>
     <dimen name="size_text_title_page">18sp</dimen>
+    <dimen name="size_txt_save">30sp</dimen>
 
 </resources>
