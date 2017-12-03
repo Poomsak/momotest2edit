@@ -2,7 +2,6 @@
     <string name="app_name">momotest2</string>
     <string name="cancel">ยกเลิก</string>
     <string name="txt_save">ส่ง-พิมพ์</string>
-    <string name="txt_logout">ออกจากระบบ</string>
     <string name="text_next">ข้าม</string>
     <string name="text_edit">แก้ไข</string>
     <string name="text_enter">ตกลง</string>
