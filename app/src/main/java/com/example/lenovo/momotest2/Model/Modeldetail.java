@@ -7,8 +7,8 @@ package com.example.lenovo.momotest2.Model;
 public class Modeldetail {
 
     private String number,top,button,toad;
-    private String focus;
-    private boolean check_top,check_button,check_toad;
+    private String focus_top,focus_button,focus_toad,focus_number;
+    private String no_focus_top,no_focus_button,no_focus_toad;
 
     public String getNumber() {
         return number;
@@ -42,35 +42,59 @@ public class Modeldetail {
         this.toad = toad;
     }
 
-    public String getFocus() {
-        return focus;
+    public String getFocus_top() {
+        return focus_top;
     }
 
-    public void setFocus(String focus) {
-        this.focus = focus;
+    public void setFocus_top(String focus_top) {
+        this.focus_top = focus_top;
     }
 
-    public boolean isCheck_top() {
-        return check_top;
+    public String getFocus_button() {
+        return focus_button;
     }
 
-    public void setCheck_top(boolean check_top) {
-        this.check_top = check_top;
+    public void setFocus_button(String focus_button) {
+        this.focus_button = focus_button;
     }
 
-    public boolean isCheck_button() {
-        return check_button;
+    public String getFocus_toad() {
+        return focus_toad;
     }
 
-    public void setCheck_button(boolean check_button) {
-        this.check_button = check_button;
+    public void setFocus_toad(String focus_toad) {
+        this.focus_toad = focus_toad;
     }
 
-    public boolean isCheck_toad() {
-        return check_toad;
+    public String getFocus_number() {
+        return focus_number;
     }
 
-    public void setCheck_toad(boolean check_toad) {
-        this.check_toad = check_toad;
+    public void setFocus_number(String focus_number) {
+        this.focus_number = focus_number;
+    }
+
+    public String getNo_focus_top() {
+        return no_focus_top;
+    }
+
+    public void setNo_focus_top(String no_focus_top) {
+        this.no_focus_top = no_focus_top;
+    }
+
+    public String getNo_focus_button() {
+        return no_focus_button;
+    }
+
+    public void setNo_focus_button(String no_focus_button) {
+        this.no_focus_button = no_focus_button;
+    }
+
+    public String getNo_focus_toad() {
+        return no_focus_toad;
+    }
+
+    public void setNo_focus_toad(String no_focus_toad) {
+        this.no_focus_toad = no_focus_toad;
     }
 }

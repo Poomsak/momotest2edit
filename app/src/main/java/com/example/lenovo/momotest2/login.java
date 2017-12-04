@@ -43,8 +43,9 @@ public class login extends AppCompatActivity {
         edUsername = (EditText) findViewById(R.id.edUsername);
         edPassword = (EditText) findViewById(R.id.edPassword);
 
-        edUsername.setText("aaaa01@zx");
-        edPassword.setText("1111");
+
+        edUsername.setKeyListener(null);
+        edPassword.setKeyListener(null);
 
         avloadLogin = (AVLoadingIndicatorView) findViewById(R.id.avloadLogin);
 
@@ -78,7 +79,7 @@ public class login extends AppCompatActivity {
                     ArrayList<FromHttpPostOkHttp> params_login = new ArrayList<FromHttpPostOkHttp>();
                     params_login.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("server",
                             getUserFormat(2)));
-                    return allCommand.POST_OK_HTTP_SendData("http://www.atom168.com/openbet2.php", params_login);
+                    return allCommand.POST_OK_HTTP_SendData("My_Url", params_login);
                 }
 
                 @Override

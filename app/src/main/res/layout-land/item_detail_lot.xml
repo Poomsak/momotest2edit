@@ -5,12 +5,13 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/Liner_Number"
+        android:id="@+id/Liner_lot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="@dimen/margin5">
         <LinearLayout
+            android:id="@+id/Liner_Number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

@@ -6,4 +6,6 @@
     <color name="colorblack">#000000</color>
     <color name="colorWith">#ffffff</color>
     <color name="color_bluelight">#B3E5FC</color>
+    <color name="color_item_lot_1">#c8daf6</color>
+    <color name="color_item_lot_2">#848efe</color>
 </resources>

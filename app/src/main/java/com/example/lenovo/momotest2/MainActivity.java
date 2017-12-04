@@ -14,8 +14,10 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -115,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listNumber = new ArrayList<>();
 
         edit_number = findViewById(R.id.edit_number);
+        edit_number.setKeyListener(null);
         redetail = findViewById(R.id.recy_detail);
 
         btn_enter = findViewById(R.id.btn_enter);
@@ -157,6 +160,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         redetail.setAdapter(adapter);
         redetail.setLayoutManager(gridLayoutManager);
         redetail.setHasFixedSize(true);
+
+
+        setDataFist();
     }
 
     @Override
@@ -164,7 +170,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()){
 
             case R.id.btn_edit:
-                Clear_Editext();
+                //Clear_Editext();
+                int length = edit_number.getText().length();
+                if (length > 0) {
+                    edit_number.getText().delete(length - 1, length);
+                }
                 break;
             case R.id.btn_enter:
                 if (edit_number.length()>0){
@@ -226,9 +236,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     private void setData(){
 
-
         if (Check_number){
+
             Modeldetail modeldetail = new Modeldetail();
+            modeldetail.setNumber(edit_number.getText().toString());
+            modeldetail.setTop("");
+            modeldetail.setButton("");
+            modeldetail.setToad("");
+
+            modeldetail.setFocus_number("0");
+            modeldetail.setFocus_top("1");
+            modeldetail.setFocus_button("0");
+            modeldetail.setFocus_toad("0");
+
+            modeldetail.setNo_focus_top("0");
+            modeldetail.setNo_focus_button("0");
+            modeldetail.setNo_focus_toad("0");
+
+            if (edit_number.getText().length()>2){
+                modeldetail.setNo_focus_button("1");
+
+            }else if (edit_number.getText().length()<=2){
+                modeldetail.setNo_focus_toad("1");
+            }
+
+            list.set(list.size()-1,modeldetail);
+            adapter.notifyDataSetChanged();
+
+            text_tital.setText("บน");
+            Check_number = false;
+            Check_numberTop = true;
+            Check_numberlower = true;
+            Check_numberToad = true;
+
+            if (edit_number.getText().length()>2){
+                Check_numberlower = false;
+
+            }else if (edit_number.getText().length()<=2){
+                Check_numberToad = false;
+            }
+
+            Clear_Editext();
+
+            /*Modeldetail modeldetail = new Modeldetail();
             modeldetail.setNumber(edit_number.getText().toString());
             modeldetail.setTop("");
             modeldetail.setButton("");
@@ -236,7 +286,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             modeldetail.setFocus("1");
             modeldetail.setCheck_top(true);
-
             modeldetail.setCheck_button(true);
             modeldetail.setCheck_toad(true);
 
@@ -255,12 +304,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }else if (edit_number.getText().length()<=2){
                 Check_numberToad = false;
             }
-            Clear_Editext();
-            //Check_numberTop = true;
+            Clear_Editext();*/
 
         }else if (Check_numberTop){
 
             Modeldetail modeldetail = new Modeldetail();
+            modeldetail.setNumber(list.get(list.size()-1).getNumber());
+            modeldetail.setTop(edit_number.getText().toString());
+            modeldetail.setButton("");
+            modeldetail.setToad("");
+
+            modeldetail.setFocus_number("0");
+            modeldetail.setFocus_top("0");
+            modeldetail.setFocus_button("0");
+            modeldetail.setFocus_toad("0");
+
+
+            modeldetail.setNo_focus_top(list.get(list.size()-1).getNo_focus_top());
+            modeldetail.setNo_focus_button(list.get(list.size()-1).getNo_focus_button());
+            modeldetail.setNo_focus_toad(list.get(list.size()-1).getNo_focus_toad());
+
+            if (Check_numberlower){
+                text_tital.setText("ล่าง");
+                modeldetail.setFocus_button("1");
+            }else {
+                text_tital.setText("โต้ด");
+                modeldetail.setFocus_toad("1");
+            }
+
+            list.set(list.size()-1,modeldetail);
+            adapter.notifyDataSetChanged();
+
+
+            Check_numberTop = false;
+            Clear_Editext();
+
+            /*Modeldetail modeldetail = new Modeldetail();
             modeldetail.setNumber(list.get(list.size()-1).getNumber());
             modeldetail.setTop(edit_number.getText().toString());
             modeldetail.setButton("");
@@ -280,12 +359,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 text_tital.setText("โต้ด");
             }
 
-            Check_numberTop = false;
+            Check_numberTop = false;*/
 
 
         }else if (Check_numberlower){
 
             Modeldetail modeldetail = new Modeldetail();
+            modeldetail.setNumber(list.get(list.size()-1).getNumber());
+            modeldetail.setTop(list.get(list.size()-1).getTop());
+            modeldetail.setButton(edit_number.getText().toString());
+            modeldetail.setToad("");
+
+            modeldetail.setFocus_number("0");
+            modeldetail.setFocus_top("0");
+            modeldetail.setFocus_button("0");
+            modeldetail.setFocus_toad("0");
+
+            modeldetail.setNo_focus_top(list.get(list.size()-1).getNo_focus_top());
+            modeldetail.setNo_focus_button(list.get(list.size()-1).getNo_focus_button());
+            modeldetail.setNo_focus_toad(list.get(list.size()-1).getNo_focus_toad());
+
+            if (!Check_numberToad){
+                Log.e("MainActivity", "END");
+                text_tital.setText("เลข");
+                Check_number = true;
+                modeldetail.setFocus_number("1");
+
+            }else {
+
+                text_tital.setText("โต้ด");
+                modeldetail.setFocus_toad("1");
+            }
+
+            list.set(list.size()-1,modeldetail);
+            adapter.notifyDataSetChanged();
+
+            if (!Check_numberToad){
+                setDataFist();
+            }
+
+            Check_numberlower = false;
+            Clear_Editext();
+
+            /*Modeldetail modeldetail = new Modeldetail();
             modeldetail.setNumber(list.get(list.size()-1).getNumber());
             modeldetail.setTop(list.get(list.size()-1).getTop());
             modeldetail.setButton(edit_number.getText().toString());
@@ -307,11 +423,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Check_number = true;
             }else {
                 text_tital.setText("โต้ด");
-            }
+            }*/
 
         }else if (Check_numberToad){
 
             Modeldetail modeldetail = new Modeldetail();
+            modeldetail.setNumber(list.get(list.size()-1).getNumber());
+            modeldetail.setTop(list.get(list.size()-1).getTop());
+            modeldetail.setButton(list.get(list.size()-1).getButton());
+            modeldetail.setToad(edit_number.getText().toString());
+
+            modeldetail.setFocus_number("0");
+            modeldetail.setFocus_top("0");
+            modeldetail.setFocus_button("0");
+            modeldetail.setFocus_toad("0");
+
+
+            modeldetail.setNo_focus_top(list.get(list.size()-1).getNo_focus_top());
+            modeldetail.setNo_focus_button(list.get(list.size()-1).getNo_focus_button());
+            modeldetail.setNo_focus_toad(list.get(list.size()-1).getNo_focus_toad());
+
+            if (!Check_numberlower){
+                Log.e("MainActivity", "END");
+                text_tital.setText("เลข");
+                Check_number = true;
+                modeldetail.setFocus_number("1");
+            }
+
+            list.set(list.size()-1,modeldetail);
+            adapter.notifyDataSetChanged();
+
+            Check_numberToad = false;
+            Clear_Editext();
+
+            setDataFist();
+
+            /*Modeldetail modeldetail = new Modeldetail();
             modeldetail.setNumber(list.get(list.size()-1).getNumber());
             modeldetail.setTop(list.get(list.size()-1).getTop());
             modeldetail.setButton(list.get(list.size()-1).getButton());
@@ -330,7 +477,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.e("MainActivity", "END");
                 text_tital.setText("เลข");
                 Check_number = true;
-            }
+            }*/
+
         }else {
 
             Log.e("MainActivity", "out");
@@ -347,6 +495,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Clear_Editext();
         text_tital.setText("เลข");
         Check_number = true;
+        setDataFist();
 
     }
     private void setNexto(){
@@ -362,6 +511,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             modeldetail.setTop(list.get(list.size()-1).getTop());
             modeldetail.setButton(list.get(list.size()-1).getButton());
             modeldetail.setToad(list.get(list.size()-1).getToad());
+
+            modeldetail.setFocus_number("0");
+            modeldetail.setFocus_top("0");
+            modeldetail.setFocus_button("1");
+            modeldetail.setFocus_toad("0");
+
+            modeldetail.setNo_focus_top("1");
+            modeldetail.setNo_focus_button(list.get(list.size()-1).getNo_focus_button());
+            modeldetail.setNo_focus_toad(list.get(list.size()-1).getNo_focus_toad());
+
+            if (!Check_numberToad&&list.get(list.size()-1).getTop().length()>0){
+                modeldetail.setFocus_button("0");
+                modeldetail.setNo_focus_top("0");
+                modeldetail.setNo_focus_button("1");
+            }
+
+
+            list.set(list.size()-1,modeldetail);
+            adapter.notifyDataSetChanged();
+
+            if (!Check_numberToad&&list.get(list.size()-1).getTop().length()>0){
+                Log.e("MainActivity", "END lower");
+                text_tital.setText("เลข");
+                Check_number = true;
+                setDataFist();
+            }
+
+            /*Clear_Editext();
+            Check_numberTop = false;
+            text_tital.setText("ล่าง");
+
+            Modeldetail modeldetail = new Modeldetail();
+            modeldetail.setNumber(list.get(list.size()-1).getNumber());
+            modeldetail.setTop(list.get(list.size()-1).getTop());
+            modeldetail.setButton(list.get(list.size()-1).getButton());
+            modeldetail.setToad(list.get(list.size()-1).getToad());
+
             modeldetail.setFocus(list.get(list.size()-1).getFocus());
 
             if (!Check_numberToad&&list.get(list.size()-1).getTop().length()>0){
@@ -372,12 +558,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             modeldetail.setCheck_button(false);
             list.set(list.size()-1,modeldetail);
-            adapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();*/
 
 
         }else if (!Check_number&&Check_numberToad){
 
             Clear_Editext();
+            Check_numberTop = false;
+            text_tital.setText("โต้ด");
+
+            Modeldetail modeldetail = new Modeldetail();
+            modeldetail.setNumber(list.get(list.size()-1).getNumber());
+            modeldetail.setTop(list.get(list.size()-1).getTop());
+            modeldetail.setButton(list.get(list.size()-1).getButton());
+            modeldetail.setToad(list.get(list.size()-1).getToad());
+
+            modeldetail.setFocus_number("0");
+            modeldetail.setFocus_top("0");
+            modeldetail.setFocus_button("0");
+            modeldetail.setFocus_toad("1");
+
+            modeldetail.setNo_focus_top("1");
+            modeldetail.setNo_focus_button(list.get(list.size()-1).getNo_focus_button());
+            modeldetail.setNo_focus_toad(list.get(list.size()-1).getNo_focus_toad());
+
+            if (!Check_numberlower&&list.get(list.size()-1).getTop().length()>0){
+
+                modeldetail.setFocus_toad("0");
+                modeldetail.setNo_focus_toad("1");
+                modeldetail.setNo_focus_top("0");
+            }
+
+
+            list.set(list.size()-1,modeldetail);
+            adapter.notifyDataSetChanged();
+
+            if (!Check_numberlower&&list.get(list.size()-1).getTop().length()>0){
+                Log.e("MainActivity", "END lower");
+                text_tital.setText("เลข");
+                Check_number = true;
+                setDataFist();
+            }
+
+            /*Clear_Editext();
             Check_numberTop = false;
             text_tital.setText("โต้ด");
 
@@ -396,9 +619,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             modeldetail.setCheck_toad(false);
             list.set(list.size()-1,modeldetail);
-            adapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();*/
         }
 
+
+    }
+    private void setDataFist(){
+
+        Modeldetail modeldetail = new Modeldetail();
+        modeldetail.setNumber("");
+        modeldetail.setTop("");
+        modeldetail.setButton("");
+        modeldetail.setToad("");
+
+        modeldetail.setFocus_number("1");
+        modeldetail.setFocus_top("0");
+        modeldetail.setFocus_button("0");
+        modeldetail.setFocus_toad("0");
+
+        modeldetail.setNo_focus_top("0");
+        modeldetail.setNo_focus_button("0");
+        modeldetail.setNo_focus_toad("0");
+
+        list.add(modeldetail);
+        adapter.notifyDataSetChanged();
+        redetail.smoothScrollToPosition(list.size());
 
     }
 

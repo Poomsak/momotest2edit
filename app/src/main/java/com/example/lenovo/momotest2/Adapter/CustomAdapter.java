@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.lenovo.momotest2.MainActivity;
 import com.example.lenovo.momotest2.Model.Modeldetail;
 import com.example.lenovo.momotest2.R;
 
@@ -37,6 +36,7 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return new ViewItemHoder(view);
     }
 
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
@@ -49,36 +49,50 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         viewitem.textbutton.setText(modellist.getButton());
         viewitem.texttoad.setText(modellist.getToad());
 
-        if (modellist.getFocus() =="1"&&modellist.getNumber().toString().length()>2){
 
-            viewitem.Liner_Top.setBackgroundResource(R.drawable.bg_item_select);
-            viewitem.Liner_Toad.setBackgroundResource(R.drawable.bg_item_select);
+        viewitem.Liner_Number.setBackground(null);
+        viewitem.Liner_Top.setBackground(null);
+        viewitem.Liner_Lower.setBackground(null);
+        viewitem.Liner_Toad.setBackground(null);
 
-        }else if (modellist.getFocus()=="1"&&modellist.getNumber().toString().length()<=2){
+        if (modellist.getFocus_number().equals("1")&&modellist.getNumber().length()<=0){
 
-            viewitem.Liner_Top.setBackgroundResource(R.drawable.bg_item_select);
-            viewitem.Liner_Lower.setBackgroundResource(R.drawable.bg_item_select);
-        }
-        if (modellist.getFocus()=="1"&&modellist.getTop().toString().length()>0){
-            viewitem.Liner_Top.setBackgroundColor(0);
-        }
-        if (modellist.getFocus()=="1"&&modellist.getToad().toString().length()>0){
-            viewitem.Liner_Toad.setBackgroundColor(0);
-        }
-        if (modellist.getFocus()=="1"&&modellist.getButton().toString().length()>0){
-            viewitem.Liner_Lower.setBackgroundColor(0);
-        }
+            viewitem.Liner_Number.setBackgroundResource(R.drawable.bg_item_focust);
 
-        if (!modellist.isCheck_top()){
-            viewitem.Liner_Top.setBackgroundColor(0);
-        }
-         if (!modellist.isCheck_button()&&modellist.getTop().toString().length()>0&&!modellist.isCheck_toad()){
-            viewitem.Liner_Lower.setBackgroundColor(0);
-        }
-         if (!modellist.isCheck_toad()&&modellist.getTop().toString().length()>0&&!modellist.isCheck_button()){
-            viewitem.Liner_Toad.setBackgroundColor(0);
+        }else if (modellist.getFocus_top().equals("1")){
+
+            viewitem.Liner_Top.setBackgroundResource(R.drawable.bg_item_focust);
+
+        }else if (modellist.getFocus_button().equals("1")){
+
+            viewitem.Liner_Lower.setBackgroundResource(R.drawable.bg_item_focust);
+
+        }else if (modellist.getFocus_toad().equals("1")){
+
+            viewitem.Liner_Toad.setBackgroundResource(R.drawable.bg_item_focust);
+
         }
 
+        if (modellist.getNo_focus_button().equals("1")){
+            Log.e("CustomAdapter", "Wellcom b");
+            viewitem.Liner_Lower.setBackgroundResource(R.drawable.bg_item_un_select);
+
+        }
+        if (modellist.getNo_focus_toad().equals("1")){
+            Log.e("CustomAdapter", "Wellcom t");
+            viewitem.Liner_Toad.setBackgroundResource(R.drawable.bg_item_un_select);
+
+        }
+        if (modellist.getNo_focus_top().equals("1")){
+
+            viewitem.Liner_Top.setBackgroundResource(R.drawable.bg_item_un_select);
+            Log.e("CustomAdapter", "Wellcom tp");
+        }
+
+        if (position % 2 == 1)
+            viewitem.Liner_lot.setBackgroundResource(R.drawable.bg_item_lot_f);
+        else
+            viewitem.Liner_lot.setBackgroundResource(R.drawable.bg_item_lot_l);
 
     }
 
@@ -90,7 +104,7 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     static class ViewItemHoder extends RecyclerView.ViewHolder {
 
         private TextView textnumber,texttop,textbutton,texttoad;
-        private LinearLayout Liner_Top,Liner_Toad,Liner_Lower;
+        private LinearLayout Liner_Top,Liner_Toad,Liner_Lower,Liner_Number,Liner_lot;
         public ViewItemHoder(View itemView) {
             super(itemView);
             textnumber = itemView.findViewById(R.id.textnumber);
@@ -101,6 +115,8 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Liner_Top = itemView.findViewById(R.id.Liner_Top);
             Liner_Toad = itemView.findViewById(R.id.Liner_Toad);
             Liner_Lower = itemView.findViewById(R.id.Liner_Lower);
+            Liner_Number = itemView.findViewById(R.id.Liner_Number);
+            Liner_lot = itemView.findViewById(R.id.Liner_lot);
         }
     }
 }
