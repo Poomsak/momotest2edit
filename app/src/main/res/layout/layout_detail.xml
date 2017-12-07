@@ -27,9 +27,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorWith"
-                android:layout_marginRight="@dimen/magin5"
-                android:layout_marginLeft="@dimen/magin5"
-                android:layout_marginBottom="@dimen/magin5">
+                android:layout_marginRight="@dimen/margin5"
+                android:layout_marginLeft="@dimen/margin5"
+                android:layout_marginBottom="@dimen/margin5">
             </android.support.v7.widget.RecyclerView>
 
 
