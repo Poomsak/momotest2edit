@@ -19,11 +19,11 @@ import java.util.List;
  * Created by Lenovo on 16-11-2017.
  */
 
-public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CustomAdapterMain extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Modeldetail> modeldetails;
     private Context context;
 
-    public CustomAdapter(List<Modeldetail> modeldetails, Context context) {
+    public CustomAdapterMain(List<Modeldetail> modeldetails, Context context) {
         this.modeldetails = modeldetails;
         this.context = context;
     }
@@ -74,19 +74,16 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         if (modellist.getNo_focus_button().equals("1")){
-            Log.e("CustomAdapter", "Wellcom b");
             viewitem.Liner_Lower.setBackgroundResource(R.drawable.bg_item_un_select);
 
         }
         if (modellist.getNo_focus_toad().equals("1")){
-            Log.e("CustomAdapter", "Wellcom t");
             viewitem.Liner_Toad.setBackgroundResource(R.drawable.bg_item_un_select);
 
         }
         if (modellist.getNo_focus_top().equals("1")){
 
             viewitem.Liner_Top.setBackgroundResource(R.drawable.bg_item_un_select);
-            Log.e("CustomAdapter", "Wellcom tp");
         }
 
         if (position % 2 == 1)
@@ -95,6 +92,7 @@ public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             viewitem.Liner_lot.setBackgroundResource(R.drawable.bg_item_lot_l);
 
     }
+
 
     @Override
     public int getItemCount() {

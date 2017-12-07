@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_margin="@dimen/margin5">
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
@@ -34,27 +34,19 @@
                 android:gravity="center"
                 android:layout_marginRight="@dimen/margin1"
                 android:layout_marginLeft="@dimen/margin1"
-                android:textColor="@color/colorblack"
                 android:textSize="@dimen/size_txt_save"
-                android:background="@drawable/bg_number_nextto"
-                android:layout_weight="1"
-                android:textStyle="bold"/>
-            <LinearLayout
+                android:background="@drawable/bg_menu"
+                android:layout_weight="1"/>
+            <TextView
                 android:id="@+id/bt_logout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
+                android:text="LogOut"
                 android:gravity="center"
                 android:textSize="@dimen/size_txt_save"
                 android:background="@drawable/bg_menu"
-                android:layout_weight="1">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_more_logout"
-                    android:tint="@color/color_red"/>
-            </LinearLayout>
-        </LinearLayout>
+                android:layout_weight="1"/>
+        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -176,14 +168,15 @@
             android:layout_weight="1"
             android:layout_margin="@dimen/margin1">
             <TextView
-                android:id="@+id/bt_twozero"
+                android:id="@+id/bt_Left"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="00"
+                android:text="ถัดไป"
                 android:gravity="center"
-                android:textSize="@dimen/magin_size50"
-                android:background="@drawable/bg_menu"
-                android:layout_weight="1"/>
+                android:textSize="@dimen/text_size30"
+                android:background="@drawable/bg_number_nextto"
+                android:layout_weight="1"
+                android:textColor="@color/colorblack"/>
             <TextView
                 android:id="@+id/bt_zero"
                 android:layout_width="match_parent"
@@ -214,26 +207,26 @@
             android:layout_weight="1"
             android:layout_margin="@dimen/margin1">
             <TextView
-                android:id="@+id/btn_cancel"
+                android:id="@+id/btn_edit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/cancel"
+                android:text="@string/text_edit"
                 android:textColor="@color/colorblack"
-                android:background="@drawable/bg_number_cancel"
+                android:background="@drawable/bg_number_edit"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textSize="@dimen/size_txt_save"
                 android:layout_weight="2"/>
             <TextView
-                android:id="@+id/btn_print"
+                android:id="@+id/btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/txt_save"
+                android:text="@string/txtlogin"
                 android:layout_marginLeft="@dimen/margin1"
                 android:gravity="center"
                 android:textSize="@dimen/size_txt_save"
                 android:textColor="@color/colorblack"
-                android:background="@drawable/bg_number_print"
+                android:background="@drawable/bg_number_enter"
                 android:layout_weight="1"
                 android:textStyle="bold"/>
 

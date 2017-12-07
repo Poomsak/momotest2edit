@@ -27,7 +27,7 @@ public class login extends AppCompatActivity {
     private EditText edUsername,edPassword;
     private AllCommand allCommand;
     private AVLoadingIndicatorView avloadLogin;
-    private String strStatus = "",strURLBall = "",strUsername = " ",strPassword = " ";
+    private String strStatus = "",strURLmo = "",strUsername = " ",strPassword = " ";
 
 
     @Override
@@ -39,10 +39,9 @@ public class login extends AppCompatActivity {
 
         allCommand = new AllCommand();
 
-        bg_Login = (TextView) findViewById(R.id.bg_Login);
+        bg_Login = (TextView) findViewById(R.id.btn_login);
         edUsername = (EditText) findViewById(R.id.edUsername);
         edPassword = (EditText) findViewById(R.id.edPassword);
-
 
         edUsername.setKeyListener(null);
         edPassword.setKeyListener(null);
@@ -79,7 +78,7 @@ public class login extends AppCompatActivity {
                     ArrayList<FromHttpPostOkHttp> params_login = new ArrayList<FromHttpPostOkHttp>();
                     params_login.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("server",
                             getUserFormat(2)));
-                    return allCommand.POST_OK_HTTP_SendData("My_Url", params_login);
+                    return allCommand.POST_OK_HTTP_SendData("My_URL", params_login);
                 }
 
                 @Override
@@ -89,8 +88,8 @@ public class login extends AppCompatActivity {
                     try {
                         final JSONObject jObject;
                         jObject = new JSONObject(allCommand.CoverStringFromServer_One(s));
-                        strURLBall = jObject.getString("url");
-                        allCommand.SaveStringShare(login.this,allCommand.kURLBall,strURLBall);
+                        strURLmo = jObject.getString("url");
+                        allCommand.SaveStringShare(login.this,allCommand.moURL,strURLmo);
 
                         new AsyncTask<String, Void, String>() {
                             @Override
@@ -101,7 +100,7 @@ public class login extends AppCompatActivity {
 
                             @Override
                             protected String doInBackground(String... strings) {
-                                String str_Url = strURLBall + "checkLogin.php";
+                                String str_Url = strURLmo + "checkLogin.php";
                                 ArrayList<FromHttpPostOkHttp> params = new ArrayList<FromHttpPostOkHttp>();
                                 params.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("sUsername ", strUsername));
                                 params.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("sPassword ", strPassword));
@@ -116,20 +115,12 @@ public class login extends AppCompatActivity {
                                     strStatus = jOLogin.getString("Status");
                                     if (strStatus.toString().equals("1")) {
 
-                                        /*
-                                        allCommand.SaveStringShare(login.this,allCommand.kSaveUserName,edUsername.getText().toString());
-                                        allCommand.SaveStringShare(login.this,allCommand.kSavePassword,edPassword.getText().toString());
-                                        allCommand.SaveStringShare(login.this,allCommand.kcrid,jOLogin.getString("crid"));
-                                        allCommand.SaveStringShare(login.this,allCommand.kmuser,jOLogin.getString("muser"));
-                                        allCommand.SaveStringShare(login.this,allCommand.kmid,jOLogin.getString("mid"));
-                                        allCommand.SaveStringShare(login.this,allCommand.kmcount,jOLogin.getString("mcount"));
-                                        allCommand.SaveStringShare(login.this,allCommand.krob,((jOLogin.isNull("rob")) ? "" : jOLogin.getString("rob")));
-                                        allCommand.SaveStringShare(login.this,allCommand.kmname,jOLogin.getString("mname"));
-                                        allCommand.SaveStringShare(login.this,allCommand.kmdate,jOLogin.getString("mdate"));
-
-                                        allCommand.SaveStringShare(login.this,allCommand.SHARE_BARCODE,jOLogin.getString("barcode"));
-                                        String max1 = jOLogin.getString("yodmax1").toString().trim();
-                                        String min1 = jOLogin.getString("yodmin1").toString().trim();
+                                        allCommand.SaveStringShare(login.this,allCommand.moCradit,jOLogin.getString("MemberCradit"));
+                                        allCommand.SaveStringShare(login.this,allCommand.moMemberID,jOLogin.getString("MemberID"));
+                                        allCommand.SaveStringShare(login.this,allCommand.moName,jOLogin.getString("Name"));
+;
+                                        String max1 = jOLogin.getString("MemberMax").toString().trim();
+                                        String min1 = jOLogin.getString("MemberMin").toString().trim();
                                         if (max1.toString().trim().length() <= 0){
                                             max1 = "1";
                                         }
@@ -137,25 +128,18 @@ public class login extends AppCompatActivity {
                                             min1 = "1";
                                         }
 
-                                        allCommand.SaveStringShare(login.this,allCommand.SHARE_MEMBERMAX1,max1);
-                                        allCommand.SaveStringShare(login.this,allCommand.SHARE_MEMBERMIN1,min1);
+                                        allCommand.SaveStringShare(login.this,allCommand.moTangMax,max1);
 
-                                        String max = jOLogin.getString("yodmax").toString().trim();
-                                        String min = jOLogin.getString("yodmin").toString().trim();
+                                        String max = jOLogin.getString("MemberMax").toString().trim();
+                                        String min = jOLogin.getString("MemberMin").toString().trim();
                                         if (max.toString().trim().length() <= 0){
                                             max = "1";
                                         }
                                         if (min.toString().trim().length() <= 0){
                                             min = "1";
                                         }
-                                        allCommand.SaveStringShare(login.this,allCommand.SHARE_MEMBERMAX,max);
-                                        allCommand.SaveStringShare(login.this,allCommand.SHARE_MEMBERMIN,min);
-                                        allCommand.SaveStringShare(login.this,allCommand.SHARE_STEPMAXMIN,jOLogin.getString("stepmaxmin"));
-
-                                        allCommand.SaveStringShare(login.this,allCommand.SHARE_TIME_REFRESH,
-                                                String.valueOf(1000 * jOLogin.getInt("refresh")));
-                                        allCommand.SaveStringShare(login.this,allCommand.SHARE_TIME_REFRESH_LIVE,
-                                                String.valueOf(1000 * jOLogin.getInt("refresh_live")));*/
+                                        allCommand.SaveStringShare(login.this,allCommand.moTangMax,max);
+                                        allCommand.SaveStringShare(login.this,allCommand.moTangMin,min);
 
                                         Intent gomain = new Intent(login.this
                                                 .getApplicationContext(),MainActivity.class);

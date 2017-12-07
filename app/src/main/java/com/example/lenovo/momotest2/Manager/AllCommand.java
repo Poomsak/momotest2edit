@@ -28,33 +28,12 @@ import java.util.ArrayList;
 public class AllCommand {
 
 	public static String SHARE_NAME = "SAVE_LOGIN";
-	public static String kcrid = "kcrid";
-	public static String kURLBall = "kURLBall";
-	public static String kmid = "kmid";
-	public static String kmcount = "kmcount";
-	public static String krob = "krob";
-	public static String kmname = "kmname";
-	public static String kmdate ="kmdate";
-	public static String kmuser = "kmuser";
-
-	public static String kSaveUserName = "ksave_username";
-	public static String kSavePassword = "ksave_password";
-
-	public static String SHARE_IDDIVICE= "save_id_divice";
-	public static String SHARE_NAMEDIVICE= "save_name_divice";
-
-	public static String SHARE_MEMBERMAX1 = "membermax_teng";
-	public static String SHARE_MEMBERMIN1 = "membermin_teng";
-	public static String SHARE_MEMBERMAX = "membermax";
-	public static String SHARE_MEMBERMIN = "membermin";
-	public static String SHARE_STEPMAXMIN = "stepmaxmin";
-
-	public static String SHARE_BARCODE = "barcode";
-	public static String SHARE_TIME_REFRESH = "timerefresh";
-	public static String SHARE_TIME_REFRESH_LIVE = "timerefreshlive";
-	public static String SHARE_CHECK_LOAD = "check_load";
-	public static String SHARE_CHECK_LOAD_LIVE = "check_load_live";
-	public static String SHARE_SETTING_PAPER = "setting_paper";
+	public static String moMemberID = "moMemberID";
+	public static String moCradit = "moCradit";
+	public static String moName = "moName";
+	public static String moTangMax = "moTangMax";
+	public static String moTangMin = "moTangMin";
+	public static String moURL = "moURL";
 
 	public boolean isConnectingToInternet(Context _context) {
 		ConnectivityManager connectivity = (ConnectivityManager) _context
@@ -172,6 +151,11 @@ public class AllCommand {
 			}
 		});
 		alertdialog.show();
+	}
+	public String DeleteFormatNumber(String strData){
+		String strDataNum = new String(strData);
+		String strNum = strDataNum.replace(",", "");
+		return strNum;
 	}
 
 }
