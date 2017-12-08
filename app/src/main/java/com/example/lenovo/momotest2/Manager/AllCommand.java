@@ -169,34 +169,6 @@ public class AllCommand {
 		});
 		alertdialog.show();
 	}
-	public int getIntShare(Context _context, String strKey, int strDe) {
-		SharedPreferences shLang;
-		shLang = _context
-				.getSharedPreferences(SHARE_NAME, Context.MODE_PRIVATE);
-		if (shLang != null) {
-			int strShare = shLang.getInt(strKey, strDe);
-			return strShare;
-		}
-		return 0;
-	}
-	public void saveIntShare(Context _context, String strKey, int strDe){
-		SharedPreferences shLang;
-		SharedPreferences.Editor edShLang;
-		shLang = _context.getSharedPreferences(SHARE_NAME, Context.MODE_PRIVATE);
-		edShLang = shLang.edit();
-		edShLang.remove(strKey);
-		edShLang.commit();
-		edShLang.putInt(strKey, strDe);
-		edShLang.commit();
-	}
-	public void deleteShareData(Context _context, String strKey){
-		SharedPreferences shLang;
-		SharedPreferences.Editor edShLang;
-		shLang = _context.getSharedPreferences(SHARE_NAME, Context.MODE_PRIVATE);
-		edShLang = shLang.edit();
-		edShLang.remove(strKey);
-		edShLang.commit();
-	}
 	public String DeleteFormatNumber(String strData){
 		String strDataNum = new String(strData);
 		String strNum = strDataNum.replace(",", "");

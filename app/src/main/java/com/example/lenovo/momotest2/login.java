@@ -147,7 +147,9 @@ public class login extends AppCompatActivity implements View.OnClickListener{
                                 allCommand.SaveStringShare(login.this,allCommand.moCradit,jOLogin.getString("MemberCradit"));
                                 allCommand.SaveStringShare(login.this,allCommand.moMemberID,jOLogin.getString("MemberID"));
                                 allCommand.SaveStringShare(login.this,allCommand.moName,jOLogin.getString("Name"));
-                                ;
+                                allCommand.SaveStringShare(login.this,allCommand.moCloseBig,jOLogin.getString("CloseBig"));
+                                allCommand.SaveStringShare(login.this,allCommand.moCloseSmall,jOLogin.getString("CloseSmall"));
+
                                 String max1 = jOLogin.getString("MemberMax").toString().trim();
                                 String min1 = jOLogin.getString("MemberMin").toString().trim();
                                 if (max1.toString().trim().length() <= 0){
@@ -412,7 +414,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
                     ArrayList<FromHttpPostOkHttp> params_login = new ArrayList<FromHttpPostOkHttp>();
                     params_login.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("server",
                             getUserFormat(2)));
-                    return allCommand.POST_OK_HTTP_SendData("MyUrl", params_login);
+                    return allCommand.POST_OK_HTTP_SendData("http://www.atom168.com/openbet2.php", params_login);
                 }
 
                 @Override
