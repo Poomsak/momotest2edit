@@ -2,8 +2,17 @@ package com.example.lenovo.momotest2.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,27 +28,32 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.lenovo.momotest2.Adapter.CustomAdapterDetail;
 import com.example.lenovo.momotest2.Adapter.CustomAdapterMain;
+import com.example.lenovo.momotest2.BuildConfig;
 import com.example.lenovo.momotest2.FormatHttpPostOkHttp.BasicNameValusPostOkHttp;
 import com.example.lenovo.momotest2.FormatHttpPostOkHttp.FromHttpPostOkHttp;
 import com.example.lenovo.momotest2.Manager.AllCommand;
 import com.example.lenovo.momotest2.Model.Modeldetail;
 import com.example.lenovo.momotest2.Model.Modelitemlot;
 import com.example.lenovo.momotest2.R;
-
+import com.example.lenovo.momotest2.bus.BusProvider;
+import com.example.lenovo.momotest2.bus.ModelBus;
+import com.example.lenovo.momotest2.con_bt.InstanceVariable;
+import com.example.lenovo.momotest2.utils.Utils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-
-import static android.widget.Toast.LENGTH_SHORT;
 
 /**
  * Created by Lenovo on 06-12-2017.
@@ -49,17 +63,13 @@ public class PageMain extends Fragment implements View.OnClickListener {
 
     private ArrayList<Modeldetail> list;
     private ArrayList<Modelitemlot> list_lot;
-
     private RecyclerView redetail;
     private RecyclerView re_savelot;
-
     private GridLayoutManager gridLayoutManager;
     private GridLayoutManager gridLayoutManager_savelot;
     private CustomAdapterMain adapter;
     private CustomAdapterDetail adapter_savelot;
-
     private LinearLayout laout_number,laout_savelot;
-
     private TextView bt_zero, bt_nine, bt_eight,
             bt_seven, bt_six, bt_file, bt_four, bt_three, bt_two, bt_one;
     private TextView btn_edit, btn_cancel, btn_enter, btn_Nexto, btn_print,bt_twozero;
@@ -75,11 +85,26 @@ public class PageMain extends Fragment implements View.OnClickListener {
     private String uuid;
     private String StateTang;
 
+    private LinearLayout lnContentPrinter;
+    private MediaPlayer mpEffect;
+    //Thread
+    private HandlerThread backgroundHandlerThread;
+    private Handler backgroundHandler;
+    private Handler mainHandler;
+
+
     public PageMain(){}
     public static PageMain newInstance(){
         PageMain pageMain = new PageMain();
         return pageMain;
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        BusProvider.getInstance().register(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -88,28 +113,19 @@ public class PageMain extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        list = new ArrayList<>();
-        list_lot = new ArrayList<>();
-        allCommand = new AllCommand();
-
-    }
-
     @SuppressLint("MissingPermission")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         tManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        uuid = tManager.getDeviceId();
+        onThreadPrintBill();
+        //TODO : M Error 1
+        //uuid = tManager.getDeviceId();
+        uuid = "358918050979765";
         edit_number.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -159,8 +175,11 @@ public class PageMain extends Fragment implements View.OnClickListener {
             }
         });
     }
+      private void itemView(View view){
+        list = new ArrayList<>();
+        list_lot = new ArrayList<>();
+        allCommand = new AllCommand();
 
-    private void itemView(View view){
 
         laout_number = view.findViewById(R.id.laout_number);
         laout_savelot = view.findViewById(R.id.laout_savelot);
@@ -175,7 +194,7 @@ public class PageMain extends Fragment implements View.OnClickListener {
         btn_enter = view.findViewById(R.id.btn_enter);
         btn_edit = view.findViewById(R.id.btn_edit);
         btn_cancel = view.findViewById(R.id.btn_cancel);
-        //btn_Nexto = view.findViewById(R.id.btn_Nexto);
+        btn_Nexto = view.findViewById(R.id.btn_Nexto);
         btn_print = view.findViewById(R.id.btn_print);
 
         text_tital = view.findViewById(R.id.text_tital);
@@ -191,6 +210,7 @@ public class PageMain extends Fragment implements View.OnClickListener {
         bt_three = view.findViewById(R.id.bt_three);
         bt_two = view.findViewById(R.id.bt_two);
         bt_one = view.findViewById(R.id.bt_one);
+        lnContentPrinter = view.findViewById(R.id.lnContentPrinter);
 
         bt_twozero.setOnClickListener(this);
         bt_zero.setOnClickListener(this);
@@ -207,9 +227,11 @@ public class PageMain extends Fragment implements View.OnClickListener {
         btn_edit.setOnClickListener(this);
         btn_enter.setOnClickListener(this);
         btn_cancel.setOnClickListener(this);
+        btn_Nexto.setOnClickListener(this);
         btn_print.setOnClickListener(this);
 
         btn_close_lot.setOnClickListener(this);
+        lnContentPrinter.setOnClickListener(this);
 
         gridLayoutManager = new GridLayoutManager(getActivity(),1);
         adapter = new CustomAdapterMain(list,getActivity());
@@ -277,11 +299,17 @@ public class PageMain extends Fragment implements View.OnClickListener {
                 }
 
                 break;
+            case R.id.btn_Nexto:
+
+                break;
+
             case R.id.btn_cancel:
                 Log.e("MainActivity", "Clear");
                 Clear_Dataset();
                 break;
             case R.id.btn_print:
+
+                //Log.e("MainActivity", setFomatTxtSavelot(list));
 
                 if(list.size()>0){
                     if (list.get(list.size()-1).getNumber().length()>0&&
@@ -335,8 +363,13 @@ public class PageMain extends Fragment implements View.OnClickListener {
             case R.id.bt_twozero:
                 setNumber("00");
                 break;
+            case R.id.lnContentPrinter:
+                ModelBus modelBus = new ModelBus();
+                modelBus.setPage(Utils.KEY_ADD_PAGE_PRINTER);
+                modelBus.setMsg(Utils.NAME_ADD_PAGE_PRINTER);
+                BusProvider.getInstance().post(modelBus);
+                break;
         }
-
     }
 
     private void Clear_Editext(){
@@ -347,7 +380,7 @@ public class PageMain extends Fragment implements View.OnClickListener {
 
     }
     private void setNumber(String number){
-        edit_number.setText(edit_number.getText().toString()+number);
+        edit_number.setText(edit_number.getText()+number);
     }
     private void setData(){
 
@@ -430,10 +463,8 @@ public class PageMain extends Fragment implements View.OnClickListener {
 
 
         }else if (Check_numberlower){
-
             String number = edit_number.getText().toString();
             if (!number.equals("0")){
-
                 Modeldetail modeldetail = new Modeldetail();
                 modeldetail.setNumber(list.get(list.size()-1).getNumber());
                 modeldetail.setTop(list.get(list.size()-1).getTop());
@@ -470,7 +501,6 @@ public class PageMain extends Fragment implements View.OnClickListener {
 
                 Check_numberlower = false;
                 Clear_Editext();
-
             }
 
 
@@ -506,20 +536,13 @@ public class PageMain extends Fragment implements View.OnClickListener {
 
                 Check_numberToad = false;
                 Clear_Editext();
-
                 //setDataFist();
             }
-
-
         }else {
-
             Log.e("MainActivity", "out");
         }
-
-
     }
     private void Clear_Dataset(){
-
         if (list.size()>0){
             list.clear();
             adapter.notifyDataSetChanged();
@@ -528,12 +551,9 @@ public class PageMain extends Fragment implements View.OnClickListener {
         text_tital.setText("เลข");
         Check_number = true;
         //setDataFist();
-
     }
     private void setNexto(){
-
         if (!Check_number&&Check_numberlower){
-
             Clear_Editext();
             Check_numberTop = false;
             text_tital.setText("ล่าง");
@@ -571,7 +591,6 @@ public class PageMain extends Fragment implements View.OnClickListener {
             }
 
         }else if (!Check_number&&Check_numberToad){
-
             Clear_Editext();
             Check_numberTop = false;
             text_tital.setText("โต้ด");
@@ -592,12 +611,10 @@ public class PageMain extends Fragment implements View.OnClickListener {
             modeldetail.setNo_focus_toad(list.get(list.size()-1).getNo_focus_toad());
 
             if (!Check_numberlower&&list.get(list.size()-1).getTop().length()>0){
-
                 modeldetail.setFocus_toad("0");
                 modeldetail.setNo_focus_toad("1");
                 modeldetail.setNo_focus_top("0");
             }
-
 
             list.set(list.size()-1,modeldetail);
             adapter.notifyDataSetChanged();
@@ -608,10 +625,7 @@ public class PageMain extends Fragment implements View.OnClickListener {
                 Check_number = true;
                 //setDataFist();
             }
-
         }
-
-
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -642,18 +656,16 @@ public class PageMain extends Fragment implements View.OnClickListener {
 
                 @Override
                 protected void onPostExecute(String s) {
-                    super.onPostExecute(s);
+                    //s = "{\"Status\":\"1\",\"Licen\":\"SC\",\"BillID\":\"175292\",\"LastLot\":\"16-11-2017\",\"CloseBig\":\"1512116400\",\"CloseSmall\":\"1512116400\",\"data\":[{\"txt\":\"3บน[456]= 10 สำเร็จ\",\"status\":1},{\"txt\":\"3ล่างหลัง[456]= เลขเต็ม คงเหลือ : 10\",\"status\":2}],\"Msg\":\"สำเร็จ\"}";
                     allCommand.ShowLogCat("MainActivity ",s);
-
+                    boolean isSound = false;
+                    boolean isPrintBill = false;
                     try {
                         JSONObject jsonTang = new JSONObject(s);
-                        Toast.makeText(getContext(), jsonTang.getString("Msg"), Toast.LENGTH_SHORT).show();
-
                         if (jsonTang.getString("Status").equals("1")){
-
+                            String billId = jsonTang.getString("BillID");
                             laout_number.setVisibility(View.GONE);
                             laout_savelot.setVisibility(View.VISIBLE);
-
                             JSONArray jArray = new JSONArray(jsonTang.getString("data"));
                             for (int i = 0;i<jArray.length();i++){
                                 JSONObject jObject = jArray.getJSONObject(i);
@@ -662,9 +674,29 @@ public class PageMain extends Fragment implements View.OnClickListener {
                                 modelitemlot.setStatuslot(jObject.getString("status"));
                                 list_lot.add(modelitemlot);
                                 adapter_savelot.notifyDataSetChanged();
-                                Log.e("MainActivity", jObject.getString("txt"));
-
+                                if (!(jObject.getString("status").toString().trim().equals("1"))){
+                                    isSound = true;
+                                }else {
+                                    isPrintBill = true;
+                                }
                             }
+                            if (isPrintBill){
+                                Message msgBack = new Message();
+                                msgBack.obj = billId.toString().trim();//Bill ID
+                                backgroundHandler.sendMessageDelayed(msgBack,1000);
+                            }
+                        }else {
+                            laout_number.setVisibility(View.GONE);
+                            laout_savelot.setVisibility(View.VISIBLE);
+                            Modelitemlot modelitemlot = new Modelitemlot();
+                            modelitemlot.setNumberlot(jsonTang.getString("Msg"));
+                            modelitemlot.setStatuslot(jsonTang.getString("Status"));
+                            list_lot.add(modelitemlot);
+                            adapter_savelot.notifyDataSetChanged();
+                            isSound = true;
+                        }
+                        if (isSound){
+                            playSoundEffect(getActivity(),R.raw.soundtang_no);
                         }
 
                         Clear_Dataset();
@@ -674,9 +706,8 @@ public class PageMain extends Fragment implements View.OnClickListener {
                         e.printStackTrace();
                     }
                 }
-            }.execute();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
-
     }
     private String setFomatTxtSavelot(ArrayList<Modeldetail> listsave){
 
@@ -717,5 +748,171 @@ public class PageMain extends Fragment implements View.OnClickListener {
         redetail.smoothScrollToPosition(list.size());
 
     }*/
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        BusProvider.getInstance().unregister(this);
+        if (backgroundHandlerThread != null) {
+            backgroundHandlerThread.quit();
+        }
+        stopSoundEffect();
+    }
+
+    private void onThreadPrintBill(){
+        backgroundHandlerThread = new HandlerThread("BackgroundHandlerThread");
+        backgroundHandlerThread.start();
+        backgroundHandler = new Handler(backgroundHandlerThread.getLooper()){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                //Run with background
+                try {
+                    String idBill = (String) msg.obj;
+                    if (InstanceVariable.mConnector.isConnected()) {
+                        //Show Status Printing
+                        Message msgMain2 = new Message();
+                        msgMain2.arg1 = 2;
+                        msgMain2.obj = msg.obj;
+                        mainHandler.sendMessage(msgMain2);
+                        //Load Bill
+                        onLoadBillFromServer(idBill);
+                        //Print Bill
+                        InstanceVariable.mConnector.PrintImage(
+                                Utils.PATH_BILL,
+                                idBill,
+                                allCommand.GetStringShare(getActivity(),Utils.SHARE_BARCODE,"").toString().trim());
+
+                        //Print Successful
+                        Message msgMain = new Message();
+                        msgMain.arg1 = 1;
+                        msgMain.obj = msg.obj;
+                        mainHandler.sendMessage(msgMain);
+                    }else {
+                        //Load Bill
+                        onLoadBillFromServer(idBill);
+                        //No Print
+                        Message msgMain = new Message();
+                        msgMain.arg1 = 0;
+                        msgMain.obj = msg.obj;
+                        mainHandler.sendMessage(msgMain);
+                    }
+                }catch (Exception e){
+                    onShowLogCat("***Err***","Err Print Bill " + e.getMessage());
+                }
+            }
+        };
+        mainHandler = new Handler(Looper.getMainLooper()){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                //Run with Main Thread
+                if (msg.arg1 == 1){
+                    onShowLogCat("Status Print","Successful");
+                    deleteFilePrint((String) msg.obj);
+                    //lnStatusPrinting.startAnimation(animHide);
+                }if (msg.arg1 == 2){
+                    onShowLogCat("Status Print","Show Printing...");
+                    /*lnStatusPrinting.setVisibility(View.VISIBLE);
+                    lnStatusPrinting.startAnimation(animShow);*/
+                }else {
+                    onShowLogCat("Status Print","No Print");
+                    addFileBill((String) msg.obj);
+                }
+            }
+        };
+    }
+    private void onLoadBillFromServer(String idBill){
+        final String urlServer = allCommand.GetStringShare(getActivity(), allCommand.moURL, "");
+        final int paper = allCommand.getIntShare(getActivity(), Utils.SHARE_SETTING_PAPER, 2);
+        final String barcode = allCommand.GetStringShare(getActivity(),Utils.SHARE_BARCODE, "");
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        File SDCardRoot = null;
+        URL url = null;
+        try {
+            url = new URL(urlServer + "print_lotto_new.php?id=" + idBill
+                    + "&barcode=" + barcode
+                    + "&paper=" + paper);
+            onShowLogCat("Url Img Lotto:  ", url + "");
+            inputStream = url.openStream();
+            SDCardRoot = new File(Environment.getExternalStorageDirectory(), Utils.PATH_BILL);
+            SDCardRoot.mkdirs();
+            File file = new File(SDCardRoot, "bill" + idBill + ".png");
+            outputStream = new FileOutputStream(file);
+            try {
+                byte[] buffer = new byte[1024];
+                int bytesRead = 0;
+                while ((bytesRead = inputStream.read(buffer, 0, buffer.length)) >= 0) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            } finally {
+                outputStream.close();
+            }
+        } catch (Exception e) {
+            onShowLogCat("Err", "Download bill " + e.getMessage());
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private void addFileBill(String billId){
+        try {
+            File SDCardRoot = new File(Environment.getExternalStorageDirectory(), Utils.PATH_BILL);
+            File file = new File(SDCardRoot, "bill" + billId + ".png");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                //File f = new File("file://"+ Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES));
+                onShowLogCat("Path Save Bill ",file.toString() + "\n" + file.getPath());
+                Uri contentUri = Uri.fromFile(file);
+                mediaScanIntent.setData(contentUri);
+                getActivity().sendBroadcast(mediaScanIntent);
+            }else{
+                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse(file.getPath())));
+            }
+        }catch (Exception e){
+            onShowLogCat("Err","addFileBill " + e.getMessage());
+        }
+
+    }
+    public void deleteFilePrint(String billId){
+        try {
+            File SDCardRoot = new File(Environment.getExternalStorageDirectory(), Utils.PATH_BILL);
+            File file = new File(SDCardRoot, "bill" + billId + ".png");
+            if (file.isFile()){
+                file.delete();
+            }
+        }catch (Exception e){
+            onShowLogCat("Err","deleteFilePrint " + e.getMessage());
+        }
+    }
+    // เสียยง?
+    public void playSoundEffect(Context context, int resId) {
+        stopSoundEffect();
+        mpEffect = MediaPlayer.create(context, resId);
+        mpEffect.start();
+        mpEffect.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+            }
+        });
+    }
+    public void stopSoundEffect() {
+        try {
+            if (mpEffect != null && mpEffect.isPlaying()) {
+                mpEffect.stop();
+                mpEffect.release();
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public void onShowLogCat(String tag, String msg){
+        if (BuildConfig.DEBUG) {
+            Log.e("***PageMain ***", tag + " ==> " + msg);
+        }
+    }
 
 }
