@@ -88,14 +88,20 @@ public class PageMain extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    @SuppressLint("MissingPermission")
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         list = new ArrayList<>();
         list_lot = new ArrayList<>();
         allCommand = new AllCommand();
+
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         tManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         uuid = tManager.getDeviceId();
@@ -201,7 +207,6 @@ public class PageMain extends Fragment implements View.OnClickListener {
         btn_edit.setOnClickListener(this);
         btn_enter.setOnClickListener(this);
         btn_cancel.setOnClickListener(this);
-        btn_Nexto.setOnClickListener(this);
         btn_print.setOnClickListener(this);
 
         btn_close_lot.setOnClickListener(this);
