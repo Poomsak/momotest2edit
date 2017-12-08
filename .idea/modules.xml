@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/momotest2.iml" filepath="$PROJECT_DIR$/momotest2.iml" />
+      <module fileurl="file://C:\SoftCare\momotest2edit\momotest2.iml" filepath="C:\SoftCare\momotest2edit\momotest2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/momotest2edit.iml" filepath="$PROJECT_DIR$/momotest2edit.iml" />
     </modules>
   </component>
 </project>
