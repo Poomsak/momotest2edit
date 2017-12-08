@@ -176,7 +176,8 @@
                 android:textSize="@dimen/text_size30"
                 android:background="@drawable/bg_number_nextto"
                 android:layout_weight="1"
-                android:textColor="@color/colorblack"/>
+                android:textColor="@color/colorblack"
+                android:textStyle="bold"/>
             <TextView
                 android:id="@+id/bt_zero"
                 android:layout_width="match_parent"

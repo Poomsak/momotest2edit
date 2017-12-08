@@ -29,7 +29,8 @@
                 android:text=""
                 android:textSize="@dimen/magin_size50"
                 android:gravity="center"
-                android:textColor="@color/colorblack"/>
+                android:textColor="@color/color_red"
+                android:textStyle="bold"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,7 +54,8 @@
                 android:gravity="center"
                 android:layout_weight="1"
                 android:textColor="@color/colorWith"
-                android:textSize="@dimen/text_size30"/>
+                android:textSize="@dimen/text_size30"
+                android:layout_marginLeft="@dimen/magin10"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/magin70"
@@ -65,7 +67,8 @@
                 android:textColor="@color/colorblack"
                 android:layout_weight="2"
                 android:layout_marginRight="@dimen/magin10"
-                android:layout_marginLeft="@dimen/magin10"/>
+                android:layout_marginLeft="@dimen/magin10"
+                android:textStyle="bold"/>
 
         </LinearLayout>
 

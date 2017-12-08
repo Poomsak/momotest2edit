@@ -233,7 +233,7 @@
                 android:gravity="center"
                 android:textSize="@dimen/size_txt_save"
                 android:textColor="@color/colorblack"
-                android:background="@drawable/bg_number_print"
+                android:background="@drawable/bg_number_enter"
                 android:layout_weight="1"
                 android:textStyle="bold"/>
 

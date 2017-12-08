@@ -22,5 +22,7 @@
     <dimen name="pad_btn_save_rl">40dp</dimen>
     <dimen name="size_text_title_page">18sp</dimen>
     <dimen name="size_txt_save">30sp</dimen>
+    <dimen name="widthlogologin">250dp</dimen>
+    <dimen name="hightlogologin">150dp</dimen>
 
 </resources>

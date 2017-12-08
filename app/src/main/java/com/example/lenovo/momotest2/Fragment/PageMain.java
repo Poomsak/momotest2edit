@@ -65,6 +65,9 @@ public class PageMain extends Fragment implements View.OnClickListener {
     private TextView btn_edit, btn_cancel, btn_enter, btn_Nexto, btn_print,bt_twozero;
     private EditText edit_number;
     private TextView text_tital;
+    private TextView btn_close_lot;
+
+
     private boolean Check_number = true, Check_numberTop = true,
             Check_numberlower = true, Check_numberToad = true;
     private AllCommand allCommand;
@@ -156,6 +159,7 @@ public class PageMain extends Fragment implements View.OnClickListener {
         laout_number = view.findViewById(R.id.laout_number);
         laout_savelot = view.findViewById(R.id.laout_savelot);
 
+        btn_close_lot = view.findViewById(R.id.btn_close_lot);
 
         edit_number = view.findViewById(R.id.edit_number);
         edit_number.setKeyListener(null);
@@ -200,6 +204,8 @@ public class PageMain extends Fragment implements View.OnClickListener {
         btn_Nexto.setOnClickListener(this);
         btn_print.setOnClickListener(this);
 
+        btn_close_lot.setOnClickListener(this);
+
         gridLayoutManager = new GridLayoutManager(getActivity(),1);
         adapter = new CustomAdapterMain(list,getActivity());
 
@@ -214,6 +220,34 @@ public class PageMain extends Fragment implements View.OnClickListener {
         re_savelot.setLayoutManager(gridLayoutManager_savelot);
         re_savelot.setHasFixedSize(true);
 
+        edit_number.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                int count = edit_number.length();
+                if (count<=0){
+                    btn_enter.setBackgroundResource(R.drawable.bg_number_nextto);
+                    btn_enter.setText(R.string.text_next);
+                }else {
+                    btn_enter.setBackgroundResource(R.drawable.bg_number_enter);
+                    btn_enter.setText(R.string.text_enter);
+                }
+                if (text_tital.getText().equals("เลข")){
+                    btn_enter.setBackgroundResource(R.drawable.bg_number_enter);
+                    btn_enter.setText(R.string.text_enter);
+                }
+            }
+        });
         //setDataFist();
     }
 
@@ -222,21 +256,26 @@ public class PageMain extends Fragment implements View.OnClickListener {
         switch (view.getId()){
 
             case R.id.btn_edit:
-                //Clear_Editext();
                 int length = edit_number.getText().length();
                 if (length > 0) {
                     edit_number.getText().delete(length - 1, length);
                 }
                 break;
             case R.id.btn_enter:
-                if (edit_number.length()>0){
-                    setData();
-                    redetail.smoothScrollToPosition(list.size());
+                if (btn_enter.getText().equals("ตกลง")){
+                    if (edit_number.length()>0){
+                        setData();
+                        redetail.smoothScrollToPosition(list.size());
+                    }
+                }else if (btn_enter.getText().equals("ข้าม")){
+                    setNexto();
                 }
+
                 break;
             case R.id.btn_Nexto:
-                setNexto();
+
                 break;
+
             case R.id.btn_cancel:
                 Log.e("MainActivity", "Clear");
                 Clear_Dataset();
@@ -253,7 +292,15 @@ public class PageMain extends Fragment implements View.OnClickListener {
                     }
 
                 }
+                break;
+            case R.id.btn_close_lot:
 
+                laout_number.setVisibility(View.VISIBLE);
+                laout_savelot.setVisibility(View.GONE);
+                if (list_lot.size()>0){
+                    list_lot.clear();
+                    adapter_savelot.notifyDataSetChanged();
+                }
 
                 break;
             case R.id.bt_one:
@@ -579,7 +626,7 @@ public class PageMain extends Fragment implements View.OnClickListener {
             new AsyncTask<String, Void, String>() {
                 @Override
                 protected String doInBackground(String... strings) {
-                    /*ArrayList<FromHttpPostOkHttp> param = new ArrayList<>();
+                    ArrayList<FromHttpPostOkHttp> param = new ArrayList<>();
                     param.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("mid",moMid));
                     param.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("txt",setFomatTxtSavelot(list)));
                     param.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("lat","0.0"));
@@ -590,8 +637,8 @@ public class PageMain extends Fragment implements View.OnClickListener {
                     param.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("uuid",uuid));
                     param.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("pname",""));
                     param.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("pid",""));
-                    return allCommand.POST_OK_HTTP_SendData(urlServer+"save_lot.php",param);*/
-                    return allCommand.GET_OK_HTTP_SendData("http://192.168.1.45/testMomo/save_lot.php");
+                    return allCommand.POST_OK_HTTP_SendData(urlServer+"save_lot.php",param);
+                    ///return allCommand.GET_OK_HTTP_SendData("http://192.168.1.45/testMomo/save_lot.php");
                 }
 
                 @Override
@@ -620,6 +667,10 @@ public class PageMain extends Fragment implements View.OnClickListener {
 
                             }
                         }
+
+                        Clear_Dataset();
+                        Clear_Editext();
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
