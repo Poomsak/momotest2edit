@@ -22,7 +22,9 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class AllCommand {
@@ -34,6 +36,8 @@ public class AllCommand {
 	public static String moTangMax = "moTangMax";
 	public static String moTangMin = "moTangMin";
 	public static String moURL = "moURL";
+	public static String moCloseBig = "moCloseBig";
+	public static String moCloseSmall = "moCloseSmall";
 
 	public boolean isConnectingToInternet(Context _context) {
 		ConnectivityManager connectivity = (ConnectivityManager) _context
@@ -105,6 +109,19 @@ public class AllCommand {
 		edShLang.commit();
 		edShLang.putString(strKey, strDe);
 		edShLang.commit();
+	}
+
+	public String SetDatestamp(String Stamp){
+
+		long timestamp = Long.parseLong(Stamp) * 1000L;
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+			Date netDate = (new Date(timestamp));
+			return sdf.format(netDate);
+		}
+		catch(Exception ex){
+			return "xx";
+		}
 	}
 
 	public void RemvoeStringShare(Context _context, String strKey, String strDe){

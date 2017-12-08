@@ -2,7 +2,9 @@ package com.example.lenovo.momotest2;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,21 +17,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.lenovo.momotest2.FormatHttpPostOkHttp.BasicNameValusPostOkHttp;
 import com.example.lenovo.momotest2.FormatHttpPostOkHttp.FromHttpPostOkHttp;
 import com.example.lenovo.momotest2.Manager.AllCommand;
 import com.wang.avi.AVLoadingIndicatorView;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
+
+import javax.sql.DataSource;
 
 public class login extends AppCompatActivity implements View.OnClickListener{
 
     private TextView bg_Login,bt_Left;
     private EditText edUsername,edPassword;
     private AllCommand allCommand;
-    private AVLoadingIndicatorView avloadLogin;
+    private AVLoadingIndicatorView avloadLogin,avi_loadLogo;
     private String strStatus = "",strURLmo = "",strUsername = " ",strPassword = " ";
 
     private TextView bt_zero, bt_nine, bt_eight,
@@ -42,7 +52,6 @@ public class login extends AppCompatActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         getSupportActionBar().hide();
         allCommand = new AllCommand();
         getURL();
@@ -55,13 +64,17 @@ public class login extends AppCompatActivity implements View.OnClickListener{
         bt_Left = findViewById(R.id.bt_Left);
         edUsername = (EditText) findViewById(R.id.edUsername);
         edPassword = (EditText) findViewById(R.id.edPassword);
+
         im_logo_login = findViewById(R.id.im_logo_login);
+
         edUsername.setText("aaaa01@zx");
         edPassword.setText("1111");
+
         edUsername.setKeyListener(null);
         edPassword.setKeyListener(null);
 
         avloadLogin = (AVLoadingIndicatorView) findViewById(R.id.avloadLogin);
+        avi_loadLogo = findViewById(R.id.avi_loadLogo);
 
         bg_Login.setOnClickListener(this);
         bt_Left.setOnClickListener(this);
@@ -232,8 +245,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
                                         allCommand.SaveStringShare(login.this,allCommand.moCradit,jOLogin.getString("MemberCradit"));
                                         allCommand.SaveStringShare(login.this,allCommand.moMemberID,jOLogin.getString("MemberID"));
                                         allCommand.SaveStringShare(login.this,allCommand.moName,jOLogin.getString("Name"));
-                                        allCommand.SaveStringShare(login.this, Utils.SHARE_BARCODE,jObject.getString("Barcode"));
-
+;
                                         String max1 = jOLogin.getString("MemberMax").toString().trim();
                                         String min1 = jOLogin.getString("MemberMin").toString().trim();
                                         if (max1.toString().trim().length() <= 0){
@@ -400,7 +412,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
                     ArrayList<FromHttpPostOkHttp> params_login = new ArrayList<FromHttpPostOkHttp>();
                     params_login.add(new BasicNameValusPostOkHttp().BasicNameValusPostOkHttp("server",
                             getUserFormat(2)));
-                    return allCommand.POST_OK_HTTP_SendData("MY_URL", params_login);
+                    return allCommand.POST_OK_HTTP_SendData("MyUrl", params_login);
                 }
 
                 @Override
@@ -423,10 +435,25 @@ public class login extends AppCompatActivity implements View.OnClickListener{
         }
 
     }
+    @SuppressLint("StaticFieldLeak")
     private void setImageLogo(){
-        Log.e("login", "Welcome");
+        avi_loadLogo.setVisibility(View.VISIBLE);
         Glide.with(login.this)
                 .load(strURLmo+"img/logo99.png")
+                .listener(new RequestListener<String, GlideDrawable>() {
+
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        avi_loadLogo.setVisibility(View.INVISIBLE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        avi_loadLogo.setVisibility(View.INVISIBLE);
+                        return false;
+                    }
+                })
                 .into(im_logo_login);
 
     }

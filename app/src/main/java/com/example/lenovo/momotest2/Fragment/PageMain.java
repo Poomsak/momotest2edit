@@ -52,7 +52,9 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -118,6 +120,8 @@ public class PageMain extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        Log.e("PageMain", allCommand.SetDatestamp(allCommand.GetStringShare(getContext(),allCommand.moCloseBig,"")));
+
         tManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         onThreadPrintBill();
         //TODO : M Error 1
@@ -141,35 +145,48 @@ public class PageMain extends Fragment implements View.OnClickListener {
             @Override
             public void afterTextChanged(Editable s) {
 
+                //TODO swip bg_edittextnumber
+                int count = edit_number.length();
+                if (count<=0){
+                    btn_enter.setBackgroundResource(R.drawable.bg_number_nextto);
+                    btn_enter.setText(R.string.text_next);
+                }else {
+                    btn_enter.setBackgroundResource(R.drawable.bg_number_enter);
+                    btn_enter.setText(R.string.text_enter);
+                }
+                if (text_tital.getText().equals("เลข")){
+                    btn_enter.setBackgroundResource(R.drawable.bg_number_enter);
+                    btn_enter.setText(R.string.text_enter);
+                }
+
+
                 edit_number.removeTextChangedListener(this);
 
                 if (Check_number){
                     edit_number.setFilters(new InputFilter[] {new InputFilter.LengthFilter(3)});
                 }else {
                     edit_number.setFilters(new InputFilter[] {new InputFilter.LengthFilter(13)});
-                }
+                    try {
+                        String originalString = s.toString();
 
-                try {
-                    String originalString = s.toString();
+                        Long longval;
+                        if (originalString.contains(",")) {
+                            originalString = originalString.replaceAll(",", "");
+                        }
+                        longval = Long.parseLong(originalString);
 
-                    Long longval;
-                    if (originalString.contains(",")) {
-                        originalString = originalString.replaceAll(",", "");
+                        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+                        formatter.applyPattern("#,###,###,###");
+                        String formattedString = formatter.format(longval);
+
+                        //setting text after format to EditText
+                        edit_number.setText(formattedString);
+                        edit_number.setSelection(edit_number.getText().length());
+
+                    } catch (NumberFormatException nfe) {
+                        nfe.printStackTrace();
                     }
-                    longval = Long.parseLong(originalString);
-
-                    DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
-                    formatter.applyPattern("#,###,###,###");
-                    String formattedString = formatter.format(longval);
-
-                    //setting text after format to EditText
-                    edit_number.setText(formattedString);
-                    edit_number.setSelection(edit_number.getText().length());
-
-                } catch (NumberFormatException nfe) {
-                    nfe.printStackTrace();
                 }
-
                 edit_number.addTextChangedListener(this);
 
             }
@@ -247,34 +264,6 @@ public class PageMain extends Fragment implements View.OnClickListener {
         re_savelot.setLayoutManager(gridLayoutManager_savelot);
         re_savelot.setHasFixedSize(true);
 
-        edit_number.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                int count = edit_number.length();
-                if (count<=0){
-                    btn_enter.setBackgroundResource(R.drawable.bg_number_nextto);
-                    btn_enter.setText(R.string.text_next);
-                }else {
-                    btn_enter.setBackgroundResource(R.drawable.bg_number_enter);
-                    btn_enter.setText(R.string.text_enter);
-                }
-                if (text_tital.getText().equals("เลข")){
-                    btn_enter.setBackgroundResource(R.drawable.bg_number_enter);
-                    btn_enter.setText(R.string.text_enter);
-                }
-            }
-        });
         //setDataFist();
     }
 
