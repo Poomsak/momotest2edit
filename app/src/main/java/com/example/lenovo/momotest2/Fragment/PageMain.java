@@ -93,6 +93,10 @@ public class PageMain extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        list = new ArrayList<>();
+        list_lot = new ArrayList<>();
+        allCommand = new AllCommand();
+
         tManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         uuid = tManager.getDeviceId();
         edit_number.addTextChangedListener(new TextWatcher() {
@@ -151,10 +155,6 @@ public class PageMain extends Fragment implements View.OnClickListener {
     }
 
     private void itemView(View view){
-        list = new ArrayList<>();
-        list_lot = new ArrayList<>();
-        allCommand = new AllCommand();
-
 
         laout_number = view.findViewById(R.id.laout_number);
         laout_savelot = view.findViewById(R.id.laout_savelot);
@@ -169,7 +169,7 @@ public class PageMain extends Fragment implements View.OnClickListener {
         btn_enter = view.findViewById(R.id.btn_enter);
         btn_edit = view.findViewById(R.id.btn_edit);
         btn_cancel = view.findViewById(R.id.btn_cancel);
-        btn_Nexto = view.findViewById(R.id.btn_Nexto);
+        //btn_Nexto = view.findViewById(R.id.btn_Nexto);
         btn_print = view.findViewById(R.id.btn_print);
 
         text_tital = view.findViewById(R.id.text_tital);
@@ -272,17 +272,11 @@ public class PageMain extends Fragment implements View.OnClickListener {
                 }
 
                 break;
-            case R.id.btn_Nexto:
-
-                break;
-
             case R.id.btn_cancel:
                 Log.e("MainActivity", "Clear");
                 Clear_Dataset();
                 break;
             case R.id.btn_print:
-
-                //Log.e("MainActivity", setFomatTxtSavelot(list));
 
                 if(list.size()>0){
                     if (list.get(list.size()-1).getNumber().length()>0&&
@@ -348,7 +342,7 @@ public class PageMain extends Fragment implements View.OnClickListener {
 
     }
     private void setNumber(String number){
-        edit_number.setText(edit_number.getText()+number);
+        edit_number.setText(edit_number.getText().toString()+number);
     }
     private void setData(){
 
